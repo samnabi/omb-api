@@ -10,7 +10,13 @@ Better structured data for Ontario Municipal Board cases and decisions.
 ## To do
 
 - Store data in a DB (sqlite?) instead of scraping the OMB website for every request
-- Search by Case No.
-- Direct link to case documents and metadata
-- Filter open vs. closed cases
-- Email notifications when case status changes or new docs are available
+- Search results
+	- Return data as JSON/RSS
+	- Direct link to case documents and metadata
+- Search options
+	- Filter open vs. closed cases
+	- Add specific case numbers to feed
+- Email notifications
+	- Change in case status
+	- New documents available
+	- New hearing dates posted
