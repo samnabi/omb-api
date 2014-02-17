@@ -1,7 +1,7 @@
 <?php
 
-require_once('lib/rollingCurl.php');
-require_once('lib/simpleHtmlDom.php');
+require_once('rollingCurl.php');
+require_once('simpleHtmlDom.php');
 
 function getMunis(){
 

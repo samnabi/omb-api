@@ -5,7 +5,9 @@ Better structured data for Ontario Municipal Board cases and decisions.
 
 ## Features
 
-- View all OMB cases for one or more municipalities
+- Scrape the OMB website and store the data in an SQLite database
+- Search for OMB cases by municipality, status, case number, and/or keywords
+- Get results as human-readable HTML or JSON
 
 ## Installation
 
@@ -16,12 +18,16 @@ Once the database is set up, the webapp is ready to use. Just navigate to `index
 ## To do
 
 - Search results
-	- Request and return data as JSON
-	- Direct link to case documents and metadata
-- Search options
-	- Filter open vs. closed cases
-	- Add specific case numbers to feed
+	- Get results as RSS
+	- Add direct URLs to case documents
+	- Add more metadata (contact information, last updated date, number of hearings and prehearings...)
+- Create "hearings" table
+	- Use case ID as a common variable
+	- New hearings trigger a new status (e.g. Open -> Prehearing 1 -> Prehearing 2 -> Hearing 1 -> Hearing 2 -> Hearing 3 -> Closed)
 - Email notifications
-	- Change in case status
-	- New documents available
-	- New hearing dates posted
+	- One-click email alert setup from search results page
+	- User-defined triggers
+		- Change in case status
+		- New documents available
+		- New hearing dates posted
+- Scrape text of all case documents for searchability and cross-referencing (pie in the sky idea)
