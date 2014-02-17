@@ -17,6 +17,9 @@ Once the database is set up, the webapp is ready to use. Just navigate to `index
 
 ## To do
 
+- Security
+	- Prevent SQL injection
+	- More robust error checking
 - Search results
 	- Get results as RSS
 	- Add direct URLs to case documents
