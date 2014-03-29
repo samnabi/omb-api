@@ -42,7 +42,7 @@ if($_GET['format'] == 'json'){
     echo json_encode($cases);
 }
 elseif ($_GET['format'] == 'rss') {
-    echo 'This should return an RSS feed. I\'m working on it.';
+    include('rss.php');
 }
 else { ?>
     <?php include_once('header.php') ?>
