@@ -1,7 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
 require_once('rollingCurl.php');
-require_once('simpleHtmlDom.php');
 
 function getMunis(){
 
@@ -42,17 +42,18 @@ function getMunis(){
   // This function scrapes the pages and populates $munis with the relevant info.
   // We'll execute it below.
   function pages_callback($response, $info, $request){
-    $html = str_get_html($response);
-    foreach ($html->find('.estatuslist td a') as $muni){
-      
+
+    preg_match_all('/(\/ecs\/MuniCaseList\.aspx.+?)>(.+?)</', $response, $matches);
+
+    foreach ($matches[0] as $muni){
       // Declare the variable as global so we can access it from outside the function.
       global $munis;
       global $urlsonly;
-
       // Push each municipality's name and URL to the array.
+      $matches = explode('>',substr($muni,0,-1));
       $munis[] = array(
-        'name' => $muni->plaintext,
-        'href' => 'https://www.omb.gov.on.ca'.$muni->href
+        'name' => $matches[1],
+        'href' => 'https://www.omb.gov.on.ca'.$matches[0]
       );
     }
   }
@@ -77,41 +78,40 @@ function getCases($urls = array()){
   // This function scrapes the pages and populates $cases with the relevant info.
   // We'll execute it below.
   function cases_callback($response, $info, $request){
-    $html = str_get_html($response);
+
+    preg_match_all('/<td.+?<\/td><td.+?<\/td><td.+?<\/td><td.+?<\/td><td.+?<\/td>/', $response, $matches);
 
     // Grab the municipality name from the URL
     parse_str(parse_url($info['url'],PHP_URL_QUERY),$query);
 
-    // Make sure we have valid HTML
-    if(strstr($html,'estatuslist') != false){
-      // Grab the list of cases, but shift off the first row (it's the header row of the table)
-      $rows = $html->find('.estatuslist tr');
-      array_shift($rows);
+    foreach ($matches[0] as $row){
 
-      foreach ($rows as $row){
-        // Declare the variable as global so we can access it from outside the function.
-        global $cases;
+      preg_match('/<td.*?>(.*?)<\/td><td.*?>.*?<\/td><td.*?>(.*?)<\/td><td.*?>(.*?)<\/td><td.*?><a.+>(.*?)<\/a><\/td>/', $row, $matches);
 
-        // Push each municipality's name and URL to the array.
+      // Declare the variable as global so we can access it from outside the function.
+      global $cases;
+
+      // Ensure that there is a case number...
+      if ($matches[4] != '') {
+        // Push details to the array.
         $cases[] = array(
           'muni' => urldecode($query['mn']),
-          'id' => trim($row->find('a',0)->plaintext),
-          'href' => trim($row->find('a',0)->href),
-          'status' => trim($row->find('td',3)->plaintext),
-          'description' => trim($row->find('td',2)->plaintext),
-          'address' => trim($row->find('td',0)->plaintext)
+          'id' => $matches[4],
+          'status' => $matches[3],
+          'description' => $matches[2],
+          'address' => $matches[1]
         );
-
-        // Output to show progress
-        echo count($cases)."\n";
       }
+
+      // Output to show progress
+      echo count($cases)."\n";
     }
   }
 
   // Populate our URL list and execute the callback function.
   $rc = new RollingCurl('cases_callback');
   $rc->window_size = 20;
-  foreach ($urls as $url) $rc->request($url);
+  $rc->request('https://www.omb.gov.on.ca/ecs/MuniCaseList.aspx?m=1106&mn=Toronto');
   $rc->execute();
 
   // Return the array of municipalities. Again, declare the global variable.

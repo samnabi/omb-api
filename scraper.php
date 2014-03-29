@@ -3,10 +3,10 @@
 // This file scrapes the OMB website and mirrors the information to a database.
 // Run this file via cron job every day or so.
 
-include_once('config.php');
-include_once('functions.php');
+include_once('lib/config.php');
+include_once('lib/functions.php');
 
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
+error_reporting(E_ALL);
 
 echo 'Building list of municipality URLs... ';
 foreach(getMunis() as $muni) $munis_list[] = $muni['href'];
@@ -16,7 +16,6 @@ echo 'Building list of all OMB cases (this could take a while!)...'."\n";
 $cases = getCases($munis_list);
 // cases_callback() will output a running total of the number of cases
 echo 'Done.'."\n";
-
 
 echo 'Writing results to DB... ';
 

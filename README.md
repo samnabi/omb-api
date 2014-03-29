@@ -33,4 +33,6 @@ Once the database is set up, the webapp is ready to use. Just navigate to `index
 		- Change in case status
 		- New documents available
 		- New hearing dates posted
-- Scrape text of all case documents for searchability and cross-referencing (pie in the sky idea)
+Scraping improvements
+	- Catch errors and scrape them a different way (e.g. all Toronto cases are failing)
+	- Scrape text of all case documents for searchability and cross-referencing (pie in the sky idea)
