@@ -111,7 +111,7 @@ function getCases($urls = array()){
   // Populate our URL list and execute the callback function.
   $rc = new RollingCurl('cases_callback');
   $rc->window_size = 20;
-  $rc->request('https://www.omb.gov.on.ca/ecs/MuniCaseList.aspx?m=1106&mn=Toronto');
+  foreach ($urls as $url) $rc->request($url);
   $rc->execute();
 
   // Return the array of municipalities. Again, declare the global variable.

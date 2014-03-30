@@ -23,10 +23,11 @@ echo 'Writing results to DB... ';
 if(!is_dir('db')) mkdir('db', 0777);
 $db = new PDO('sqlite:db/'.$db_filename);
 chmod('db/'.$db_filename, 0777);
+$db->exec('DROP TABLE cases');
 $db->exec('CREATE TABLE IF NOT EXISTS cases (id TEXT, muni TEXT, status TEXT, description TEXT, address TEXT)');
 
 // Write to DB
-foreach($cases as $case) {
+foreach ($cases as $case) {
 	$db->exec('INSERT INTO cases (id, muni, status, description, address) VALUES ("'.$case['id'].'", "'.$case['muni'].'", "'.$case['status'].'", "'.$case['description'].'", "'.$case['address'].'")');
 }
 
