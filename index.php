@@ -30,14 +30,14 @@
             </fieldset>
 
             <fieldset>
-                <legend>Format <a href="#">What's this?</a></legend>
+                <legend>Format</legend>
                 <label><input type="radio" name="format" value="web" checked /> Human-readable search results</label>
                 <label><input type="radio" name="format" value="json" /> JSON object</label>
                 <label><input type="radio" name="format" value="rss" /> RSS feed</label>
             </fieldset>
 
             <fieldset class="center">
-                <input class="yellow button" type="submit" value="Search" />
+                <input class="button" type="submit" value="Search" />
             </fieldset>
         </form>
     </main>
